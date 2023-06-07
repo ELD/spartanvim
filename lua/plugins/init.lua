@@ -6,4 +6,5 @@ return {
     "tpope/vim-fugitive",
     "nvim-tree/nvim-web-devicons",
     "ap/vim-css-color",
+    "folke/neodev.nvim",
 }
