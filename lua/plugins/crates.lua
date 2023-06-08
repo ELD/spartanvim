@@ -3,7 +3,7 @@ return {
   config = function()
     local crates = require("crates")
 
-    require('crates').setup {
+    crates.setup {
       smart_insert = true,
       insert_closing_quote = true,
       avoid_prerelease = true,
