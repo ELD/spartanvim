@@ -12,7 +12,8 @@
   outputs = { self, nixpkgs, neovim-flake, flake-utils, ... }:
     let
       inherit (flake-utils.lib) eachSystemMap;
-      defaultSystems = [ "x86_64-linux" "aarch64-darwin" ];
+      defaultSystems =
+        [ "aarch64-linux" "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
     in {
       packages = eachSystemMap defaultSystems (system:
         let
