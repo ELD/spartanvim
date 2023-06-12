@@ -53,7 +53,7 @@ return {
       },
     })
 
-    local icons = require("spartanvim.config.icons")
+    local icons = require("config.icons")
     vim.api.nvim_set_hl(0, "DapStoppedLinehl", { bg = "#555530" })
     vim.fn.sign_define("DapBreakpoint", { text = icons.ui.TinyCircle, texthl = "DapBreakpoint", linehl = "", numhl = "" })
     vim.fn.sign_define("DapBreakpointCondition", { text = icons.ui.CircleWithGap, texthl = "DapBreakpointCondition", linehl = "", numhl = "" })

@@ -1,2 +1,2 @@
-require("spartanvim.config.lazy").setup()
+require("config.lazy")
 

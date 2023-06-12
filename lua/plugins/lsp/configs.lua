@@ -1,14 +1,14 @@
 local lspconfig = require("lspconfig")
 
-local lsp_servers = require("spartanvim.utils.lsp-servers")
+local lsp_servers = require("utils.lsp-servers")
 
-local on_attach = require("spartanvim.plugins.lsp.handlers").on_attach
-local capabilities = require("spartanvim.plugins.lsp.handlers").capabilities
+local on_attach = require("plugins.lsp.handlers").on_attach
+local capabilities = require("plugins.lsp.handlers").capabilities
 
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  settings = require("spartanvim.plugins.lsp.settings.sumneko_lua").settings,
+  settings = require("plugins.lsp.settings.sumneko_lua").settings,
 })
 
 for _, server in ipairs(lsp_servers.regular_servers) do
@@ -18,7 +18,7 @@ for _, server in ipairs(lsp_servers.regular_servers) do
   })
 end
 
-local codelldb = require("spartanvim.utils.codelldb")
+local codelldb = require("utils.codelldb")
 
 require("rust-tools").setup({
   tools = {

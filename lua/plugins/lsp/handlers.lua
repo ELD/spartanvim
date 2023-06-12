@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = require("spartanvim.config.icons")
+local icons = require("config.icons")
 
 M.setup = function()
   local signs = {

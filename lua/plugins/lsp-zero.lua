@@ -27,7 +27,7 @@ return {
 
       local luasnip = require("luasnip")
 
-      local kind_icons = require("spartanvim.config.icons").kind
+      local kind_icons = require("config.icons").kind
 
       require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_snipmate").lazy_load()
@@ -182,40 +182,11 @@ return {
       -- This is where all the LSP shenanigans will live
 
       local lspzero = require("lsp-zero")
-
-      require("spartanvim.plugins.lsp").setup()
-
-      lspzero.on_attach(function(client, bufnr)
-        lspzero.default_keymaps({ buffer = bufnr })
-      end)
+      require("plugins.lsp.configs")
+      require("plugins.lsp.handlers").setup()
 
       lspzero.setup()
-
-      local null_ls = require("null-ls")
-      local formatting = null_ls.builtins.formatting
-      local diagnostics = null_ls.builtins.diagnostics
-
-      null_ls.setup({
-        debug = false,
-        should_attach = function(bufnr)
-          if vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 100000 then
-            print("(null-ls) DISABLED, file too large")
-            return false
-          else
-            return true
-          end
-        end,
-        sources = {
-          formatting.prettier,
-          formatting.black.with({ extra_args = { "--fast" } }),
-          diagnostics.flake8,
-          diagnostics.jsonlint,
-          formatting.jq,
-          formatting.latexindent,
-          diagnostics.chktex,
-        },
-        on_attach = require("spartanvim.plugins.lsp").on_attach
-      })
+      require("plugins.lsp.null-ls").setup()
     end
   },
   {
