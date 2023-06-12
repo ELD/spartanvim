@@ -14,6 +14,6 @@ let
       };
     });
 in buildLuaConfigPlugin {
-  configDir = ../lua;
+  configDir = ../.;
   moduleName = "spartanvim";
 }
