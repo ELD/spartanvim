@@ -182,10 +182,8 @@ return {
       -- This is where all the LSP shenanigans will live
 
       local lspzero = require("lsp-zero")
-      require("plugins.lsp.configs")
-      require("plugins.lsp.handlers").setup()
-
       lspzero.setup()
+      require("plugins.lsp").setup()
       require("plugins.lsp.null-ls").setup()
     end
   },
