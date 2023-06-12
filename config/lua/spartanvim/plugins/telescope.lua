@@ -3,11 +3,15 @@ return {
   dependencies = {
     "nvim-telescope/telescope-ui-select.nvim",
     "nvim-telescope/telescope-dap.nvim",
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build =
+      "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+    },
   },
   config = function()
     local telescope = require("telescope")
-    local icons = require("config.icons")
+    local icons = require("spartanvim.config.icons")
     local actions = require("telescope.actions")
 
     telescope.setup {
@@ -141,10 +145,10 @@ return {
       | `!^music` | inverse-prefix-exact-match | Items that do not start with `music` |
       | `!.mp3$`  | inverse-suffix-exact-match | Items that do not end with `.mp3`    |
       ]]
-          fuzzy = true, -- false will only do exact matching
+          fuzzy = true,                   -- false will only do exact matching
           override_generic_sorter = true, -- override the generic sorter
-          override_file_sorter = true, -- override the file sorter
-          case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+          override_file_sorter = true,    -- override the file sorter
+          case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
           -- the default case_mode is "smart_case"
         },
         themes = {},
@@ -159,4 +163,3 @@ return {
     telescope.load_extension("dap")
   end,
 }
-

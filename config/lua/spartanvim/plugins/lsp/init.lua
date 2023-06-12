@@ -4,7 +4,7 @@ return {
         "simrat39/rust-tools.nvim",
     },
     config = function()
-        require "plugins.lsp.configs"
-        require("plugins.lsp.handlers").setup()
+        require "spartanvim.plugins.lsp.configs"
+        require("spartanvim.plugins.lsp.handlers").setup()
     end,
 }

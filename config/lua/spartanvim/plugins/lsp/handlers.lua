@@ -1,13 +1,13 @@
 local M = {}
 
-local icons = require("config.icons")
+local icons = require("spartanvim.config.icons")
 
 M.setup = function()
   local signs = {
     { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-    { name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
-    { name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
-    { name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
+    { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+    { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+    { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
   }
 
   for _, sign in ipairs(signs) do
@@ -193,4 +193,3 @@ cmp_capabilities.textDocument.foldingRange = {
 M.capabilities = cmp_capabilities
 
 return M
-

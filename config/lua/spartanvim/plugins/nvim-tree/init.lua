@@ -8,7 +8,7 @@ return {
         local nvim_tree = require("nvim-tree")
         local nvim_tree_config = require("nvim-tree.config")
         local tree_cb = nvim_tree_config.nvim_tree_callback
-        local icons = require("config.icons")
+        local icons = require("spartanvim.config.icons")
 
         nvim_tree.setup({
             on_attach = OnAttach,
@@ -130,5 +130,3 @@ return {
         })
     end,
 }
-
-

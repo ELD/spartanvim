@@ -25,8 +25,7 @@ return {
         formatting.latexindent,
         diagnostics.chktex,
       },
-      on_attach = require("plugins.lsp.handlers").on_attach
+      on_attach = require("spartanvim.plugins.lsp.handlers").on_attach
     })
   end,
 }
-
