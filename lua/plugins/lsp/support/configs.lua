@@ -1,14 +1,14 @@
 local lspconfig = require("lspconfig")
 
-local lsp_servers = require("utils.lsp-servers")
+local lsp_servers = require("plugins.lsp.support.lsp-servers")
 
-local on_attach = require("utils.lsp.handlers").on_attach
-local capabilities = require("utils.lsp.handlers").capabilities
+local on_attach = require("plugins.lsp.support.handlers").on_attach
+local capabilities = require("plugins.lsp.support.handlers").capabilities
 
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  settings = require("utils.lsp.settings.sumneko_lua").settings,
+  settings = require("plugins.lsp.support.settings.sumneko_lua").settings,
 })
 
 for _, server in ipairs(lsp_servers.regular_servers) do
@@ -18,7 +18,7 @@ for _, server in ipairs(lsp_servers.regular_servers) do
   })
 end
 
-local codelldb = require("utils.codelldb")
+local codelldb = require("plugins.lsp.support.codelldb")
 
 require("rust-tools").setup({
   tools = {

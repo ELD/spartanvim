@@ -183,8 +183,8 @@ return {
 
       local lspzero = require("lsp-zero")
       lspzero.setup()
-      require("utils.lsp").setup()
-      require("utils.lsp.null-ls").setup()
+      require("plugins.lsp.support").setup()
+      require("plugins.lsp.support.null-ls").setup()
     end
   },
   {
