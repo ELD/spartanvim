@@ -19,8 +19,6 @@
           };
         in {
           spartanvim-config = pkgs.callPackage ./pkgs/spartanvim-config.nix { };
-          spartanvim =
-            pkgs.callPackage ./pkgs/spartanvim.nix { inherit pkgs; };
         });
 
       apps = eachSystemMap defaultSystems (system:
