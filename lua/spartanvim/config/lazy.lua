@@ -21,14 +21,9 @@ M.setup = function()
   require("spartanvim.config.keybindings")
   require("spartanvim.config.settings")
 
-  local status_ok, lazy = pcall(require, "lazy")
-  if not status_ok then
-    return
-  elseif lazy == nil then
-    return
-  end
+  local lazy = require("lazy")
 
-  lazy.setup("spartanvim.plugins", {
+  return lazy.setup("spartanvim.plugins", {
     git = {
       url_format = "https://github.com/%s.git"
     }
