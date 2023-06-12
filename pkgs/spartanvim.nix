@@ -8,7 +8,7 @@ let
     withRuby = true;
     withNodeJs = true;
 
-    customRc = ''
+    customRC = ''
       lua << EOF
       -- bootstrap lazy.nvim, LazyVim and your plugins
       require('spartanvim.config.lazy').setup()
