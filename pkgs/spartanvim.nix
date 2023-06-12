@@ -20,4 +20,4 @@ let
       optional = false;
     }];
   };
-in pkgs.wrapNeovimUnstable pkgs.neovim (neovimConfig // { wrapRc = true; })
+in pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped (neovimConfig // { wrapRc = true; })
