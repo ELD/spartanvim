@@ -3,7 +3,7 @@ return {
   config = function()
     local lualine = require("lualine")
 
-    local icons = require("config.icons")
+    local icons = require("spartanvim.config.icons")
 
     -- Credited to [evil_lualine](https://github.com/nvim-lualine/lualine.nvim/blob/master/examples/evil_lualine.lua)
     local conditions = {

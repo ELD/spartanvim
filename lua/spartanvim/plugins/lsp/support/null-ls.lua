@@ -24,7 +24,7 @@ M.setup = function()
       formatting.latexindent,
       diagnostics.chktex,
     },
-    on_attach = require("plugins.lsp.support.handlers").on_attach
+    on_attach = require("spartanvim.plugins.lsp.support.handlers").on_attach
   })
 end
 

@@ -1,2 +1,2 @@
-require("config.lazy")
+require("spartanvim.config.lazy")
 

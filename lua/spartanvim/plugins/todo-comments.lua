@@ -3,7 +3,7 @@ return {
   config = function()
     local todo_comments = require("todo-comments")
 
-    local icons = require("config.icons")
+    local icons = require("spartanvim.config.icons")
 
     local error_red = "#F44747"
     local warning_orange = "#FF8800"

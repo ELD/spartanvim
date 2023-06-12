@@ -13,14 +13,14 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("config.autocommands")
-require("config.icons")
-require("config.keybindings")
-require("config.settings")
+require("spartanvim.config.autocommands")
+require("spartanvim.config.icons")
+require("spartanvim.config.keybindings")
+require("spartanvim.config.settings")
 
 local lazy = require("lazy")
 
-return lazy.setup("plugins", {
+return lazy.setup("spartanvim.plugins", {
 	git = {
 		url_format = "https://github.com/%s.git"
 	}
