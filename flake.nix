@@ -21,34 +21,9 @@
           spartanvim-config = pkgs.callPackage ./pkgs/spartanvim-config.nix { };
         });
 
-      apps = eachSystemMap defaultSystems (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = builtins.attrValues self.overlays;
-          };
-        in {
-          defaultApp = {
-            type = "app";
-            program = "${pkgs.spartanvim}/bin/nvim";
-          };
-        });
-
-      devShells = eachSystemMap defaultSystems (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = builtins.attrValues self.overlays;
-          };
-        in {
-          default = pkgs.mkShell {
-            packages = builtins.attrValues { inherit (pkgs) lemmy-help npins; };
-          };
-        });
       overlays = {
         packages = (final: prev: {
           spartanvim-config = self.packages.${prev.system}.spartanvim-config;
-          spartanvim = self.packages.${prev.system}.spartanvim;
         });
       };
     };
