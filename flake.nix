@@ -3,13 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flake-utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, neovim-flake, flake-utils, ... }:
+  outputs = { self, nixpkgs, flake-utils, ... }:
     let
       inherit (flake-utils.lib) eachSystemMap;
       defaultSystems =
@@ -24,7 +20,7 @@
         in {
           spartanvim-config = pkgs.callPackage ./pkgs/spartanvim-config.nix { };
           spartanvim =
-            pkgs.callPackage ./pkgs/spartanvim.nix { inherit neovim-flake; };
+            pkgs.callPackage ./pkgs/spartanvim.nix { inherit pkgs; };
         });
 
       apps = eachSystemMap defaultSystems (system:
