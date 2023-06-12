@@ -16,10 +16,10 @@ M.setup = function()
 
   vim.opt.rtp:prepend(lazypath)
 
-  require("config.autocommands")
-  require("config.icons")
-  require("config.keybindings")
-  require("config.settings")
+  require("spartanvim.config.autocommands")
+  require("spartanvim.config.icons")
+  require("spartanvim.config.keybindings")
+  require("spartanvim.config.settings")
 
   local status_ok, lazy = pcall(require, "lazy")
   if not status_ok then

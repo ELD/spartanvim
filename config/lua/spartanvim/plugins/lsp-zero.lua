@@ -27,7 +27,7 @@ return {
 
       local luasnip = require("luasnip")
 
-      local kind_icons = require("config.icons").kind
+      local kind_icons = require("spartanvim.config.icons").kind
 
       require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_snipmate").lazy_load()
@@ -182,8 +182,8 @@ return {
 
       local lspzero = require("lsp-zero")
 
-      require("plugins.lsp.configs")
-      require("plugins.lsp.handlers").setup()
+      require("spartanvim.plugins.lsp.configs")
+      require("spartanvim.plugins.lsp.handlers").setup()
       --[[ lsp.on_attach(function(client, bufnr) ]]
       --[[   lsp.default_keymaps({buffer = bufnr}) ]]
       --[[ end) ]]

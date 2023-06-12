@@ -1,4 +1,4 @@
-require("plugins.nvim-tree.onattach")
+require("spartanvim.plugins.nvim-tree.onattach")
 
 return {
     "kyazdani42/nvim-tree.lua",
