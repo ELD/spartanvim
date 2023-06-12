@@ -15,17 +15,10 @@
         let
           pkgs = import nixpkgs {
             inherit system;
-            overlays = builtins.attrValues self.overlays;
           };
         in {
-          spartanvim-config = pkgs.callPackage ./pkgs/spartanvim-config.nix { };
+          config = pkgs.callPackage ./pkgs/spartanvim-config.nix { };
         });
-
-      overlays = {
-        packages = (final: prev: {
-          spartanvim-config = self.packages.${prev.system}.spartanvim-config;
-        });
-      };
     };
 }
 
