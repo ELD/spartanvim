@@ -28,7 +28,7 @@ M.setup = function()
     return
   end
 
-  lazy.setup("plugins", {
+  lazy.setup("spartanvim.plugins", {
     git = {
       url_format = "https://github.com/%s.git"
     }
