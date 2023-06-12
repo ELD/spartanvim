@@ -175,6 +175,7 @@ return {
           pcall(vim.cmd, "MasonUpdate")
         end,
       },
+      { "jose-elias-alvarez/null-ls.nvim" },
       { "simrat39/rust-tools.nvim" }
     },
     config = function()
@@ -182,16 +183,39 @@ return {
 
       local lspzero = require("lsp-zero")
 
-      require("spartanvim.plugins.lsp.configs")
-      require("spartanvim.plugins.lsp.handlers").setup()
-      --[[ lsp.on_attach(function(client, bufnr) ]]
-      --[[   lsp.default_keymaps({buffer = bufnr}) ]]
-      --[[ end) ]]
+      require("spartanvim.plugins.lsp").setup()
 
-      -- (Optional) Configure lua language server for neovim
-      --[[ require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls()) ]]
+      lspzero.on_attach(function(client, bufnr)
+        lspzero.default_keymaps({ buffer = bufnr })
+      end)
 
       lspzero.setup()
+
+      local null_ls = require("null-ls")
+      local formatting = null_ls.builtins.formatting
+      local diagnostics = null_ls.builtins.diagnostics
+
+      null_ls.setup({
+        debug = false,
+        should_attach = function(bufnr)
+          if vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 100000 then
+            print("(null-ls) DISABLED, file too large")
+            return false
+          else
+            return true
+          end
+        end,
+        sources = {
+          formatting.prettier,
+          formatting.black.with({ extra_args = { "--fast" } }),
+          diagnostics.flake8,
+          diagnostics.jsonlint,
+          formatting.jq,
+          formatting.latexindent,
+          diagnostics.chktex,
+        },
+        on_attach = require("spartanvim.plugins.lsp").on_attach
+      })
     end
   },
   {
