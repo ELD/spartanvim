@@ -9,10 +9,11 @@ return {
 		config = function()
 			local mason = require("mason")
 			local mason_lspconfig = require("mason-lspconfig")
-			local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local custom_lsp = require("utils.lsp")
 			local default_setup = function(server)
 				require("lspconfig")[server].setup({
-					capabilities = lsp_capabilities,
+					capabilities = custom_lsp.capabilities,
+					on_attach = custom_lsp.on_attach,
 				})
 			end
 
@@ -44,21 +45,36 @@ return {
 					"tsserver",
 				},
 				handlers = {
-					rust_analyzer = function() end,
+					rust_analyzer = custom_lsp.noop,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup({
-							capabilities = lsp_capabilities,
+							on_attach = custom_lsp.on_attach,
+							capabilities = custom_lsp.capabilities,
 							settings = {
 								Lua = {
 									runtime = {
 										version = "LuaJIT",
+										path = "$VIMRUNTIME/lua",
 									},
 									diagnostics = {
 										globals = { "vim" },
+										neededFileStatus = {
+											["codestyle-check"] = "Any",
+										},
 									},
 									workspace = {
 										library = {
-											vim.env.VIMRUNTIME,
+											[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+											[vim.fn.stdpath("config") .. "/lua"] = true,
+										},
+									},
+									format = {
+										enable = true,
+										defaultConfig = {
+											indent_style = "tab",
+											indent_size = "2",
+											quote_style = "double",
+											max_line_length = "unset",
 										},
 									},
 								},
@@ -86,7 +102,6 @@ return {
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-
 			local function border(hl_name)
 				return {
 					{ "╭", hl_name },
@@ -204,7 +219,71 @@ return {
 		dependencies = {
 			"nvimdev/lspsaga.nvim",
 		},
+		opts = {
+			inlay_hints = { enabled = true },
+		},
 		config = function()
+			local lspconfig = require("lspconfig")
+			local icons = require("utils.icons")
+			-- local lsp = require("utils.lsp")
+
+			local signs = {
+				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
+				{ name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+				{ name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+				{ name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+			}
+			for _, sign in ipairs(signs) do
+				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+			end
+
+			vim.diagnostic.config(
+				{
+					virtual_text = { prefix = icons.ui.VirtualPrefix },
+					signs = { active = signs, },
+					update_in_insert = true,
+					underline = true,
+					severity_sort = true,
+					float = {
+						focusable = false,
+						style = "minimal",
+						border = "single",
+						source = "always",
+						header = "",
+						prefix = "",
+					},
+				}
+			)
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+				border = "single"
+			})
+			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+				border = "single",
+				focusable = true,
+				relative = "cursor",
+			})
+
+			---@diagnostic disable-next-line: duplicate-set-field
+			vim.notify = function(msg, log_level)
+				if msg:match "exit code" then
+					return
+				end
+				if log_level == vim.log.levels.ERROR then
+					vim.api.nvim_err_writeln(msg)
+				else
+					vim.api.nvim_echo({ { msg } }, true, {})
+				end
+			end
+
+			local win = require("lspconfig.ui.windows")
+			local _default_opts = win.default_opts
+
+			win.default_opts = function(options)
+				local opts = _default_opts(options)
+				opts.border = "single"
+				return opts
+			end
+
 			require("lspsaga").setup({
 				symbol_in_winbar = {
 					enable = true
@@ -215,9 +294,22 @@ return {
 		end,
 	},
 	{
-		'mrcjkb/rustaceanvim',
-		version = '^4', -- Recommended
-		ft = { 'rust' },
+		"mrcjkb/rustaceanvim",
+		version = "^4", -- Recommended
+		ft = { "rust" },
+		config = function()
+			local custom_lsp = require("utils.lsp")
+			vim.g.rustaceanvim = {
+				tools = {},
+				server = {
+					on_attach = custom_lsp.on_attach,
+					settings = {
+						["rust-analyzer"] = {},
+					},
+				},
+				dap = {},
+			}
+		end,
 	},
 	{
 		"folke/trouble.nvim",
