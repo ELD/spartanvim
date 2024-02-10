@@ -4,6 +4,7 @@ local M = {}
 --- @param client table
 --- @param bufnr number
 --- @return nil
+---@diagnostic disable-next-line: unused-local
 local function lsp_keymaps(client, bufnr)
 	local keymap = function(mode, key, action, desc)
 		vim.keymap.set(mode, key, action, { buffer = bufnr, desc = desc })
