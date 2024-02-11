@@ -20,6 +20,8 @@ local function lsp_keymaps(client, bufnr)
 	keymap("n", "<leader>mR", vim.lsp.buf.rename, "Refactor: Rename")
 	keymap({ "n", "x" }, "<leader>mf", vim.lsp.buf.format, "Refactor: format")
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
+
+	-- TODO: Add lspsaga keybinds
 end
 
 --- Setting any special highlights for language servers that support it

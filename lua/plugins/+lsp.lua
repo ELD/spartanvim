@@ -1,17 +1,66 @@
 -- INFO: Global file for all LSP related configuration
 return {
-	-- Mason for managing LSPs, DAPs, linters, and formatters
+	-- lspconfig and LspSaga
 	{
-		"williamboman/mason.nvim",
+		"neovim/nvim-lspconfig",
+		cmd = { "LspInfo", "Mason" },
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
+			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"nvimdev/lspsaga.nvim",
+		},
+		opts = {
+			inlay_hints = { enabled = true },
 		},
 		config = function()
+			local lspconfig = require("lspconfig")
+			local lspconfig_win = require("lspconfig.ui.windows")
 			local mason = require("mason")
 			local mason_lspconfig = require("mason-lspconfig")
-			local custom_lsp = require("utils.lsp")
+			local custom_lsp = require("utils.lsp_customizations")
+			local lspsaga = require("lspsaga")
+			local icons = require("utils.icons")
+
+			local signs = {
+				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
+				{ name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
+				{ name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
+				{ name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+			}
+			for _, sign in ipairs(signs) do
+				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+			end
+
+			vim.diagnostic.config(
+				{
+					virtual_text = { prefix = icons.ui.VirtualPrefix },
+					signs = { active = signs, },
+					update_in_insert = true,
+					underline = true,
+					severity_sort = true,
+					float = {
+						focusable = false,
+						style = "minimal",
+						border = "single",
+						source = "always",
+						header = "",
+						prefix = "",
+					},
+				}
+			)
+
+			local win = lspconfig_win
+			local _default_opts = win.default_opts
+
+			win.default_opts = function(options)
+				local opts = _default_opts(options)
+				opts.border = "single"
+				return opts
+			end
+
 			local default_setup = function(server)
-				require("lspconfig")[server].setup({
+				lspconfig[server].setup({
 					capabilities = custom_lsp.capabilities,
 					on_attach = custom_lsp.on_attach,
 				})
@@ -47,7 +96,7 @@ return {
 				handlers = {
 					rust_analyzer = custom_lsp.noop,
 					lua_ls = function()
-						require("lspconfig").lua_ls.setup({
+						lspconfig.lua_ls.setup({
 							on_attach = custom_lsp.on_attach,
 							capabilities = custom_lsp.capabilities,
 							settings = {
@@ -82,6 +131,109 @@ return {
 						})
 					end,
 					default_setup,
+				},
+			})
+
+			lspsaga.setup({
+				preview = {
+					lines_above = 0,
+					lines_below = 10,
+				},
+				scroll_preview = {
+					scroll_down = "<C-f>",
+					scroll_up = "<C-b>",
+				},
+				request_timeout = 2000,
+				finder = {
+					--percentage
+					max_height = 0.5,
+					keys = {
+						jump_to = "p",
+						edit = { "o", "<CR>" },
+						vsplit = "s",
+						split = "i",
+						tabe = "t",
+						tabnew = "r",
+						quit = { "q", "<ESC>" },
+						close_in_preview = "<ESC>",
+					},
+				},
+				definition = {
+					edit = "<C-c>o",
+					vsplit = "<C-c>v",
+					split = "<C-c>i",
+					tabe = "<C-c>t",
+					quit = "q",
+					close = "<Esc>",
+				},
+				code_action = {
+					num_shortcut = true,
+					show_server_name = false,
+					extend_gitsigns = true,
+					keys = {
+						-- string | table type
+						quit = "<ESC>",
+						exec = "<CR>",
+					},
+				},
+				lightbulb = {
+					enable = true,
+					enable_in_insert = false,
+					sign = false,
+					sign_priority = 40,
+					virtual_text = false,
+				},
+				diagnostic = {
+					show_code_action = true,
+					show_source = true,
+					jump_num_shortcut = true,
+					--1 is max
+					max_width = 0.7,
+					custom_fix = nil,
+					custom_msg = nil,
+					text_hl_follow = false,
+					border_follow = true,
+					keys = {
+						exec_action = "o",
+						quit = "q",
+						go_action = "g",
+					},
+				},
+				rename = {
+					quit = "<C-c>",
+					exec = "<CR>",
+					mark = "x",
+					confirm = "<CR>",
+					in_select = true,
+				},
+				outline = {
+					win_position = "right",
+					win_with = "",
+					win_width = 30,
+					show_detail = true,
+					auto_preview = true,
+					auto_refresh = true,
+					auto_close = true,
+					custom_sort = nil,
+					keys = {
+						jump = "o",
+						expand_collapse = "u",
+						quit = "q",
+					},
+				},
+				symbol_in_winbar = {
+					enable = true,
+					separator = " - ",
+					hide_keyword = true,
+					show_file = true,
+					folder_level = 2,
+					respect_root = false,
+					color_mode = true,
+				},
+				ui = {
+					devicon = true,
+					lightbulb = icons.ui.Lightbulb,
+					kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 				},
 			})
 		end,
@@ -211,94 +363,12 @@ return {
 			})
 		end,
 	},
-	-- lspconfig and LspSaga
-	{
-		"neovim/nvim-lspconfig",
-		cmd = "LspInfo",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"nvimdev/lspsaga.nvim",
-		},
-		opts = {
-			inlay_hints = { enabled = true },
-		},
-		config = function()
-			local lspconfig = require("lspconfig")
-			local icons = require("utils.icons")
-			-- local lsp = require("utils.lsp")
-
-			local signs = {
-				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
-				{ name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-				{ name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-				{ name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
-			}
-			for _, sign in ipairs(signs) do
-				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
-			end
-
-			vim.diagnostic.config(
-				{
-					virtual_text = { prefix = icons.ui.VirtualPrefix },
-					signs = { active = signs, },
-					update_in_insert = true,
-					underline = true,
-					severity_sort = true,
-					float = {
-						focusable = false,
-						style = "minimal",
-						border = "single",
-						source = "always",
-						header = "",
-						prefix = "",
-					},
-				}
-			)
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "single"
-			})
-			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-				border = "single",
-				focusable = true,
-				relative = "cursor",
-			})
-
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.notify = function(msg, log_level)
-				if msg:match "exit code" then
-					return
-				end
-				if log_level == vim.log.levels.ERROR then
-					vim.api.nvim_err_writeln(msg)
-				else
-					vim.api.nvim_echo({ { msg } }, true, {})
-				end
-			end
-
-			local win = require("lspconfig.ui.windows")
-			local _default_opts = win.default_opts
-
-			win.default_opts = function(options)
-				local opts = _default_opts(options)
-				opts.border = "single"
-				return opts
-			end
-
-			require("lspsaga").setup({
-				symbol_in_winbar = {
-					enable = true
-				},
-				ui = {
-				},
-			})
-		end,
-	},
 	{
 		"mrcjkb/rustaceanvim",
 		version = "^4", -- Recommended
 		ft = { "rust" },
 		config = function()
-			local custom_lsp = require("utils.lsp")
+			local custom_lsp = require("utils.lsp_customizations")
 			vim.g.rustaceanvim = {
 				tools = {},
 				server = {
