@@ -11,6 +11,8 @@
 # What's next
 - [x] doing more with `lspsaga`
 - [x] checking for any other incompleteness for LS setup
-- [ ] add keybinds for `lspsaga`
+- [x] add keybinds for `lspsaga`
+- [ ] Review LSP keybindings with common prefix key `<leader>l`?
+- [ ] Move all UI-related plugins together into `ui.lua`
 - [ ] Reviewing integration with catppuccin scheme/plugin
 
