@@ -22,6 +22,9 @@ local function lsp_keymaps(client, bufnr)
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
 
 	-- TODO: Add lspsaga keybinds
+	keymap("n", "<leader>lf", ":Lspsaga finder<CR>", "Lspsaga: Launch finder")
+	keymap("n", "<leader>li", ":Lspsaga incoming_calls<CR>", "Lspsaga: Incoming calls")
+	keymap("n", "<leader>lo", ":Lspsaga outgoing_calls<CR>", "Lspsaga: Outgoing calls")
 end
 
 --- Setting any special highlights for language servers that support it
