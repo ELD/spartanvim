@@ -12,7 +12,14 @@
 - [x] doing more with `lspsaga`
 - [x] checking for any other incompleteness for LS setup
 - [x] add keybinds for `lspsaga`
-- [ ] Review LSP keybindings with common prefix key `<leader>l`?
-- [ ] Move all UI-related plugins together into `ui.lua`
+- [c] Review LSP keybindings with common prefix key `<leader>l`?
+- [ ] Set up uniform keybindings with predictable prefixes
+  - Check `whichkey` for key conflicts
+- [x] Move all UI-related plugins together into `ui.lua`
 - [ ] Reviewing integration with catppuccin scheme/plugin
+- [ ] Install git plugins
+
+# What's eventually?
+- [ ] Set up DAPs
+- [ ] Set up none-ls for linting and formatting
 

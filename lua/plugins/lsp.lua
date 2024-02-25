@@ -9,6 +9,7 @@ return {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"nvimdev/lspsaga.nvim",
+			"folke/neodev.nvim",
 		},
 		opts = {
 			inlay_hints = { enabled = true },
@@ -65,6 +66,9 @@ return {
 					on_attach = custom_lsp.on_attach,
 				})
 			end
+
+			-- Configure neodev _before_ configuring lua_ls via Mason
+			require("neodev").setup({})
 
 			mason.setup({
 				ui = {

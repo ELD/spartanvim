@@ -1,5 +1,12 @@
 return {
 	{
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim",  -- OPTIONAL: for git status
+			"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+		},
+	},
+	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {},
@@ -196,5 +203,124 @@ return {
 				},
 			})
 		end,
-	}
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("lualine").setup({
+				theme = "catppuccin",
+			})
+		end,
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			local HEIGHT_RATIO = 0.8
+			local WIDTH_RATIO = 0.15
+			require("nvim-tree").setup({
+				view = {
+					side = "right",
+					float = {
+						enable = false,
+						open_win_config = function()
+							local screen_w = vim.opt.columns:get()
+							local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+							local window_w = screen_w * WIDTH_RATIO
+							local window_h = screen_h * HEIGHT_RATIO
+							local window_w_int = math.floor(window_w)
+							local window_h_int = math.floor(window_h)
+							local center_x = (screen_w - window_w) / 2
+							local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+
+							return {
+								border = "rounded",
+								relative = "editor",
+								row = center_y,
+								col = center_x,
+								width = window_w_int,
+								height = window_h_int,
+							}
+						end,
+					},
+					width = function()
+						return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+					end,
+				},
+			})
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.5",
+		-- or                              , branch = '0.1.x',
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			local telescope = require("telescope")
+
+			-- Extensions
+			telescope.load_extension("noice")
+		end,
+	},
+	{
+		"goolord/alpha-nvim",
+		config = function()
+			local alpha = require("alpha")
+
+			local is_unix = vim.fn.has("unix") == 1
+			local is_win32 = vim.fn.has("win32") == 1
+			local configure_path
+			if is_unix then
+				local nvim_app = os.getenv("NVIM_APPNAME")
+				local xdg_config_home = os.getenv("XDG_CONFIG_HOME")
+				if nvim_app == nil then
+					nvim_app = "nvim"
+				end
+				if xdg_config_home == nil then
+					xdg_config_home = "/Users/" .. os.getenv("USER") .. "/.config"
+				end
+
+				configure_path = xdg_config_home .. "/" .. nvim_app .. "/init.lua"
+			elseif is_win32 then
+				configure_path = "~/AppData/Local/nvim/init.lua"
+			end
+
+			local dashboard = require("alpha.themes.dashboard")
+
+			dashboard.section.header.val = {
+				[[░██████╗██████╗░░█████╗░██████╗░████████╗░█████╗░███╗░░██╗██╗░░░██╗██╗███╗░░░███╗]],
+				[[██╔════╝██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗████╗░██║██║░░░██║██║████╗░████║]],
+				[[╚█████╗░██████╔╝███████║██████╔╝░░░██║░░░███████║██╔██╗██║╚██╗░██╔╝██║██╔████╔██║]],
+				[[░╚═══██╗██╔═══╝░██╔══██║██╔══██╗░░░██║░░░██╔══██║██║╚████║░╚████╔╝░██║██║╚██╔╝██║]],
+				[[██████╔╝██║░░░░░██║░░██║██║░░██║░░░██║░░░██║░░██║██║░╚███║░░╚██╔╝░░██║██║░╚═╝░██║]],
+				[[╚═════╝░╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝╚═╝░░░░░╚═╝]],
+			}
+
+			dashboard.section.buttons.val = {
+				dashboard.button("f", "   Find file", ":Telescope find_files<CR>"),
+				dashboard.button("e", "   New file", ":ene <BAR> startinsert <CR>"),
+				dashboard.button("r", "   Recently used file", ":Telescope oldfiles <CR>"),
+				dashboard.button("t", "   Find text", ":Telescope live_grep <CR>"),
+				dashboard.button("c", "   Configuration", ":e" .. configure_path .. "<CR>"),
+				dashboard.button("q", "   Quit SpartanVim", ":qa<CR>"),
+			}
+
+			dashboard.section.footer.opts.hl = "Type"
+			dashboard.section.header.opts.hl = "Include"
+			dashboard.section.buttons.opts.hl = "Keyword"
+			dashboard.opts.opts.noautocmd = true
+
+			alpha.setup(dashboard.opts)
+		end,
+	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end
+	},
 }
