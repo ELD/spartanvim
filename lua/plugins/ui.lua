@@ -261,9 +261,29 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local telescope = require("telescope")
+			local telescope_config = require("telescope.config")
+
+			local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
+
+			table.insert(vimgrep_arguments, "--hidden")
+			table.insert(vimgrep_arguments, "--glob")
+			table.insert(vimgrep_arguments, "!**/.git/*")
 
 			-- Extensions
 			telescope.load_extension("noice")
+
+			-- Setup
+			telescope.setup({
+				defaults = {
+					vimgrep_arguments = vimgrep_arguments,
+				},
+				pickers = {
+					find_files = {
+						find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+					},
+				},
+			})
+
 		end,
 	},
 	{
