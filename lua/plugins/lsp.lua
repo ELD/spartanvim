@@ -389,4 +389,27 @@ return {
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
+	{
+		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		config = function()
+			local lsp_lines = require("lsp_lines")
+
+			lsp_lines.setup()
+
+			vim.keymap.set("n", "g?", function()
+				---@diagnostic disable-next-line: undefined-field
+				local lines_enabled = not vim.diagnostic.config().virtual_lines
+				vim.diagnostic.config({
+					virtual_lines = lines_enabled,
+					virtual_text = not lines_enabled,
+				})
+			end, { noremap = true, silent = true, desc = "Show extended diagnostic" })
+
+			vim.diagnostic.config({
+				virtual_text = true,
+				virtual_lines = false,
+			})
+		end,
+	},
+	-- TODO: Install none-ls and configure the linters and formatters I want to use
 }

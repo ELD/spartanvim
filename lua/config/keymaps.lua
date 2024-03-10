@@ -10,7 +10,7 @@ keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { silent = true, desc 
 keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { silent = true, desc = "Telescope Keymaps" })
 
 -- Nvim-Tree Mappings
-keymap({"n", "i", "v"}, "<C-b>", "<cmd>NvimTreeToggle<cr>", { silent = true, desc = "Toggle NvimTree Window" })
+keymap({ "n", "i", "v" }, "<C-b>", "<cmd>NvimTreeToggle<cr>", { silent = true, desc = "Toggle NvimTree Window" })
 
 -- Noice dismiss
 keymap("n", "<leader>nd", "<cmd>NoiceDismiss<cr>", { desc = "Dismiss Noice Messages" })
