@@ -11,20 +11,20 @@ local function lsp_keymaps(client, bufnr)
 	end
 
 	keymap("n", "K", vim.lsp.buf.hover)
-	keymap("n", "<leader>gD", vim.lsp.buf.declaration, "Go to declaration")
-	keymap("n", "<leader>gd", vim.lsp.buf.definition, "Go to definition")
-	keymap("n", "<leader>gi", vim.lsp.buf.implementation, "Go to implementation")
-	keymap("n", "<leader>gt", vim.lsp.buf.type_definition, "Go to type declaration")
-	keymap("n", "<leader>gr", vim.lsp.buf.references, "Go to references")
-	keymap("n", "<leader>gs", vim.lsp.buf.signature_help, "Go to signature")
-	keymap("n", "<leader>mR", vim.lsp.buf.rename, "Refactor: Rename")
-	keymap({ "n", "x" }, "<leader>mf", vim.lsp.buf.format, "Refactor: format")
+	keymap("n", "<leader>ld", vim.lsp.buf.declaration, "Go to declaration")
+	keymap("n", "<leader>lD", vim.lsp.buf.definition, "Go to definition")
+	keymap("n", "<leader>li", vim.lsp.buf.implementation, "Go to implementation")
+	keymap("n", "<leader>lt", vim.lsp.buf.type_definition, "Go to type declaration")
+	keymap("n", "<leader>lr", vim.lsp.buf.references, "Go to references")
+	keymap("n", "<leader>ls", vim.lsp.buf.signature_help, "Go to signature")
+	keymap("n", "<leader>lR", vim.lsp.buf.rename, "Refactor: Rename")
+	keymap({ "n", "x" }, "<leader>lf", vim.lsp.buf.format, "Refactor: format")
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
 
 	-- TODO: Add lspsaga keybinds
-	keymap("n", "<leader>lf", ":Lspsaga finder<CR>", "Lspsaga: Launch finder")
-	keymap("n", "<leader>li", ":Lspsaga incoming_calls<CR>", "Lspsaga: Incoming calls")
-	keymap("n", "<leader>lo", ":Lspsaga outgoing_calls<CR>", "Lspsaga: Outgoing calls")
+	keymap("n", "<leader>sf", ":Lspsaga finder<CR>", "Lspsaga: Launch finder")
+	keymap("n", "<leader>si", ":Lspsaga incoming_calls<CR>", "Lspsaga: Incoming calls")
+	keymap("n", "<leader>so", ":Lspsaga outgoing_calls<CR>", "Lspsaga: Outgoing calls")
 end
 
 --- Setting any special highlights for language servers that support it
