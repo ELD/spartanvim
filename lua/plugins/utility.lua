@@ -127,4 +127,21 @@ return {
 			})
 		end,
 	},
+	{
+		"smoka7/hop.nvim",
+		version = "*",
+		opts = {},
+		config = function()
+			local hop = require("hop")
+			hop.setup()
+
+			local directions = require("hop.hint").HintDirection
+			vim.keymap.set("n", "<leader>w", function()
+				hop.hint_words({ direction = directions.AFTER_CURSOR, hint_offset = 1 })
+			end, { remap = true, desc = "Hop word after cursor" })
+			vim.keymap.set("n", "<leader>W", function()
+				hop.hint_words({ direction = directions.BEFORE_CURSOR, hint_offset = 1 })
+			end, { remap = true, desc = "Hop word before cursor" })
+		end,
+	}
 }
