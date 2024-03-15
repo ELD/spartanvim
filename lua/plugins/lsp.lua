@@ -10,6 +10,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"nvimdev/lspsaga.nvim",
 			"folke/neodev.nvim",
+			"b0o/schemastore.nvim",
 		},
 		opts = {
 			inlay_hints = { enabled = true },
@@ -32,16 +33,6 @@ return {
 			for _, sign in ipairs(signs) do
 				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
 			end
-
-			require("lspconfig.configs").circleci_yaml_language_server = {
-				default_config = {
-					name = "circleci-yaml-language-server",
-					cmd = { "circleci-yaml-language-server", "-stdio", "--schema", "circleci-yaml-language-server-schema.json" },
-					filetypes = { "yaml" },
-					root_dir = require("lspconfig.util").root_pattern({ ".circleci" }),
-					settings = {},
-				}
-			}
 
 			vim.diagnostic.config(
 				{
@@ -72,10 +63,6 @@ return {
 
 			local default_setup = function(server)
 				lspconfig[server].setup({
-					capabilities = custom_lsp.capabilities,
-					on_attach = custom_lsp.on_attach,
-				})
-				lspconfig["circleci_yaml_language_server"].setup({
 					capabilities = custom_lsp.capabilities,
 					on_attach = custom_lsp.on_attach,
 				})
@@ -114,6 +101,25 @@ return {
 				},
 				handlers = {
 					rust_analyzer = custom_lsp.noop,
+					yamlls = function()
+						lspconfig.yamlls.setup({
+							schemaStore = {
+								enable = false,
+								url = "",
+							},
+							schemas = require("schemastore").yaml.schemas(),
+						})
+					end,
+					jsonls = function()
+						lspconfig.jsonls.setup({
+							settings = {
+								json = {
+									schemas = require("schemastore").json.schemas(),
+									validate = { enable = true },
+								},
+							},
+						})
+					end,
 					lua_ls = function()
 						lspconfig.lua_ls.setup({
 							on_attach = custom_lsp.on_attach,
