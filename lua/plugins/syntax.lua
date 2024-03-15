@@ -18,6 +18,7 @@ return {
 				"css",
 				"rust",
 				"go",
+				"terraform",
 			},
 			autopairs = { enable = true },
 			sync_install = false,

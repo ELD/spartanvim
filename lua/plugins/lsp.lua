@@ -95,6 +95,7 @@ return {
 					-- "rust_analyzer", -- WARN: Not required because rustaceanvim uses a preinstalled rust_analyzer?
 					"sqls",
 					"tailwindcss",
+					"terraformls",
 					"tsserver",
 				},
 				handlers = {
