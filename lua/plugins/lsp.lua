@@ -33,6 +33,16 @@ return {
 				vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
 			end
 
+			require("lspconfig.configs").circleci_yaml_language_server = {
+				default_config = {
+					name = "circleci-yaml-language-server",
+					cmd = { "circleci-yaml-language-server", "-stdio", "--schema", "circleci-yaml-language-server-schema.json" },
+					filetypes = { "yaml" },
+					root_dir = require("lspconfig.util").root_pattern({ ".circleci" }),
+					settings = {},
+				}
+			}
+
 			vim.diagnostic.config(
 				{
 					virtual_text = { prefix = icons.ui.VirtualPrefix },
@@ -62,6 +72,10 @@ return {
 
 			local default_setup = function(server)
 				lspconfig[server].setup({
+					capabilities = custom_lsp.capabilities,
+					on_attach = custom_lsp.on_attach,
+				})
+				lspconfig["circleci_yaml_language_server"].setup({
 					capabilities = custom_lsp.capabilities,
 					on_attach = custom_lsp.on_attach,
 				})
