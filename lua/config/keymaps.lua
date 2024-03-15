@@ -8,6 +8,7 @@ keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { silent = true, desc 
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { silent = true, desc = "Telescope Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { silent = true, desc = "Telescope Help Tags" })
 keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { silent = true, desc = "Telescope Keymaps" })
+keymap("n", "<leader>fn", "<cmd>Telescope noice<cr>", { silent = true, desc = "Telescope Noice messages" })
 
 -- Nvim-Tree Mappings
 keymap({ "n", "i", "v" }, "<C-b>", "<cmd>NvimTreeToggle<cr>", { silent = true, desc = "Toggle NvimTree Window" })
