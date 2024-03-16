@@ -11,6 +11,7 @@ return {
 			"nvimdev/lspsaga.nvim",
 			"folke/neodev.nvim",
 			"b0o/schemastore.nvim",
+			"nvimtools/none-ls.nvim",
 		},
 		opts = {
 			inlay_hints = { enabled = true },
@@ -23,6 +24,7 @@ return {
 			local custom_lsp = require("utils.lsp_customizations")
 			local lspsaga = require("lspsaga")
 			local icons = require("utils.icons")
+			local none_ls = require("null-ls")
 
 			local signs = {
 				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
@@ -261,6 +263,27 @@ return {
 					kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 				},
 			})
+
+			local formatting = none_ls.builtins.formatting
+			local diagnostics = none_ls.builtins.diagnostics
+			local code_actions = none_ls.builtins.code_actions
+			none_ls.setup({
+				debug = false,
+				should_attach = function(bufnr)
+					if vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 100000 then
+						print("(none-ls) DISABLED, file too large")
+						return false
+					else
+						return true
+					end
+				end,
+				sources = {
+					code_actions.statix,
+					diagnostics.textidote,
+					formatting.prettier,
+				},
+				on_attach = custom_lsp.on_attach,
+			})
 		end,
 	},
 	-- Completion plugins
@@ -292,6 +315,10 @@ return {
 				}
 			end
 
+			local check_backspace = function()
+				local col = vim.fn.col "." - 1
+				return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+			end
 			cmp.setup({
 				enabled = function()
 					return vim.api.nvim_get_option_value("buftype", {
@@ -312,10 +339,16 @@ return {
 					["<C-y>"] = cmp.config.disable,
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
+						if luasnip.expandable() then
+							cmp.close()
+							luasnip.expand()
 						elseif luasnip.expand_or_jumpable() then
+							cmp.close()
 							luasnip.expand_or_jump()
+						elseif cmp.visible() then
+							cmp.select_next_item()
+						elseif check_backspace() then
+							fallback()
 						else
 							fallback()
 						end
@@ -432,5 +465,4 @@ return {
 			})
 		end,
 	},
-	-- TODO: Install none-ls and configure the linters and formatters I want to use
 }
