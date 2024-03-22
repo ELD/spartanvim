@@ -17,7 +17,7 @@ local settings = {
 	termguicolors = true,
 	scrolloff = 8,
 	updatetime = 50,
-	colorcolumn = {"80", "120"},
+	colorcolumn = { "80", "120" },
 	foldenable = false,
 	fillchars = {
 		diff = "",
@@ -66,7 +66,7 @@ local settings = {
 	},
 	showbreak = "↪",
 	spell = true,
-	spelllang = { 'en_us' },
+	spelllang = { "en_us" },
 	-- Figure out what these do:
 	signcolumn = "yes:1",
 	splitkeep = "screen",
