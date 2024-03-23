@@ -12,6 +12,7 @@ return {
 			"folke/neodev.nvim",
 			"b0o/schemastore.nvim",
 			"nvimtools/none-ls.nvim",
+			"jay-babu/mason-null-ls.nvim",
 		},
 		opts = {
 			inlay_hints = { enabled = true },
@@ -25,6 +26,7 @@ return {
 			local lspsaga = require("lspsaga")
 			local icons = require("utils.icons")
 			local none_ls = require("null-ls")
+			local mason_none_ls = require("mason-null-ls")
 
 			local signs = {
 				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
@@ -264,25 +266,16 @@ return {
 				},
 			})
 
-			local formatting = none_ls.builtins.formatting
-			local diagnostics = none_ls.builtins.diagnostics
-			local code_actions = none_ls.builtins.code_actions
-			none_ls.setup({
-				debug = false,
-				should_attach = function(bufnr)
-					if vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 100000 then
-						print("(none-ls) DISABLED, file too large")
-						return false
-					else
-						return true
-					end
-				end,
-				sources = {
-					code_actions.statix,
-					diagnostics.textidote,
-					formatting.prettier,
+			-- INFO: None-ls configuration
+			mason_none_ls.setup({
+				ensure_installed = {
+					"statix",
 				},
-				on_attach = custom_lsp.on_attach,
+				automatic_installation = false,
+				handlers = {},
+			})
+			none_ls.setup({
+				sources = {},
 			})
 		end,
 	},
