@@ -22,17 +22,17 @@ return {
 				no_bold = false,
 				no_underline = false,
 				styles = {
-					comments = { "undercurl,italic" }, -- Change the style of comments
+					comments = { "italic" }, -- Change the style of comments
 					conditionals = { "italic" },
-					loops = {},
-					functions = { "underdouble,bold" },
+					loops = { "underline" },
+					functions = { "bold" },
 					keywords = { "bold" },
-					strings = {},
+					strings = { "italic" },
 					variables = {},
 					numbers = {},
 					booleans = {},
 					properties = {},
-					types = {},
+					types = { "italic", "undercurl" },
 					operators = {},
 				},
 				color_overrides = {},

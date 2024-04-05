@@ -1,5 +1,8 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	dependencies = {
+		"windwp/nvim-ts-autotag",
+	},
 	build = ":TSUpdate",
 	config = function()
 		local configs = require("nvim-treesitter.configs")
@@ -19,8 +22,10 @@ return {
 				"rust",
 				"go",
 				"terraform",
+				"tsx",
 			},
 			autopairs = { enable = true },
+			autotag = { enable = true },
 			sync_install = false,
 			highlight = {
 				enable = true,
