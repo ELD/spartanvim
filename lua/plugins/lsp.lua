@@ -97,7 +97,7 @@ return {
 					"html",
 					"lua_ls",
 					"nil_ls",
-					-- "rust_analyzer", -- WARN: Not required because rustaceanvim uses a preinstalled rust_analyzer?
+					"rust_analyzer",
 					"sqls",
 					"tailwindcss",
 					"terraformls",
