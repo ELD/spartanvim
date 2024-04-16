@@ -107,6 +107,7 @@ return {
 					rust_analyzer = custom_lsp.noop,
 					yamlls = function()
 						lspconfig.yamlls.setup({
+							on_attach = custom_lsp.on_attach,
 							schemaStore = {
 								enable = false,
 								url = "",
@@ -116,6 +117,7 @@ return {
 					end,
 					jsonls = function()
 						lspconfig.jsonls.setup({
+							on_attach = custom_lsp.on_attach,
 							settings = {
 								json = {
 									schemas = require("schemastore").json.schemas(),
