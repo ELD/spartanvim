@@ -60,7 +60,7 @@ end
 --- @return nil
 local function enable_inlay_hints(client, bufnr)
 	if vim.lsp.inlay_hint and client.supports_method("textDocument/inlayHint") then
-		vim.lsp.inlay_hint.enable(bufnr, true)
+		vim.lsp.inlay_hint.enable(true)
 	end
 end
 
