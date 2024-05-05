@@ -151,14 +151,16 @@ return {
 			require("codesnap").setup({
 				save_path = "~/workspace/codesnaps",
 				has_breadcrumbs = true,
+				has_line_number = true,
 				bg_theme = "summer",
 				watermark = "ELD",
 				mac_window_bar = true,
 				code_font_family = "OperatorMonoSSmLig Nerd Font",
+				watermark_font_family = "OperatorMonoSSmLig Nerd Font",
 			})
 
 			vim.keymap.set({ "n", "x" }, "<leader>cnc", [[CodeSnap]], { silent = true, desc = "CodeSnap to clipboard" })
-			vim.keymap.set({ "n", "x" }, "<leader>cns", [[CodeSnapSave]], { silent = true, desc = "CodeSnap to clipboard" })
+			vim.keymap.set({ "n", "x" }, "<leader>cns", [[CodeSnapSave]], { silent = true, desc = "CodeSnap to save path" })
 		end,
 	},
 	{
