@@ -24,6 +24,8 @@ return {
 					"go",
 					"terraform",
 					"tsx",
+          "nix",
+          "templ",
 				},
 				autopairs = { enable = true },
 				autotag = { enable = true },

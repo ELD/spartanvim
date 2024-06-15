@@ -21,20 +21,20 @@ return {
 				no_italic = false,
 				no_bold = false,
 				no_underline = false,
-				styles = {
-					comments = { "italic" }, -- Change the style of comments
-					conditionals = { "italic" },
-					loops = { "underline" },
-					functions = { "bold" },
-					keywords = { "bold" },
-					strings = { "italic" },
-					variables = {},
-					numbers = {},
-					booleans = {},
-					properties = {},
-					types = { "italic", "undercurl" },
-					operators = {},
-				},
+				-- styles = {
+				-- 	comments = { "italic" }, -- Change the style of comments
+				-- 	conditionals = { "italic" },
+				-- 	loops = { "underline" },
+				-- 	functions = { "bold" },
+				-- 	keywords = { "bold" },
+				-- 	strings = { "italic" },
+				-- 	variables = {},
+				-- 	numbers = {},
+				-- 	booleans = {},
+				-- 	properties = {},
+				-- 	types = { "italic", "undercurl" },
+				-- 	operators = {},
+				-- },
 				color_overrides = {},
 				custom_highlights = {},
 				integrations = {
@@ -55,7 +55,8 @@ return {
 				},
 			})
 
-			vim.cmd("colorscheme catppuccin")
+			-- vim.cmd("colorscheme catppuccin")
 		end,
-	}
+	},
+	{ "rose-pine/neovim", name = "rose-pine", config = function() vim.cmd("colorscheme rose-pine-moon") end, }
 }

@@ -76,3 +76,6 @@ local settings = {
 for k, v in pairs(settings) do
 	vim.opt[k] = v
 end
+
+-- Templ filetype
+vim.filetype.add({ extension = { templ = "templ" } })

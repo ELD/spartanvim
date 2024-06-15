@@ -95,13 +95,17 @@ return {
 					"golangci_lint_ls",
 					"gopls",
 					"html",
+					"htmx",
+					"jsonls",
 					"lua_ls",
 					"nil_ls",
 					"rust_analyzer",
 					"sqls",
 					"tailwindcss",
+					"templ",
 					"terraformls",
 					"tsserver",
+					"yamlls",
 				},
 				handlers = {
 					rust_analyzer = custom_lsp.noop,
@@ -124,6 +128,18 @@ return {
 									validate = { enable = true },
 								},
 							},
+						})
+					end,
+					html = function()
+						lspconfig.html.setup({
+							on_attach = custom_lsp.on_attach,
+							filetypes = { "html", "templ" },
+						})
+					end,
+					htmx = function()
+						lspconfig.htmx.setup({
+							on_attach = custom_lsp.on_attach,
+							filetypes = { "html", "templ" },
 						})
 					end,
 					lua_ls = function()
