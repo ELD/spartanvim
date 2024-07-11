@@ -1,3 +1,4 @@
+require("config.autocmds")
 require("config.editor")
 require("config.keybinds")
 require("config.search")

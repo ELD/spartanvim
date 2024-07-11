@@ -8,6 +8,15 @@ vim.opt.rtp:prepend(lazypath)
 require("config.config")
 
 require("lazy").setup("plugins", {
+	defaults = {
+		-- lazy = true,
+	},
+	concurrency = 64,
+	performance = {
+		cache = {
+			enabled = true,
+		},
+	},
 	git = {
 		url_format = "https://github.com/%s.git"
 	}
