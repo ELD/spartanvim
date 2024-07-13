@@ -1,0 +1,2 @@
+-- TODO: LuaLine configuration
+return {}

@@ -10,15 +10,19 @@ local function lsp_keymaps(client, bufnr)
 		vim.keymap.set(mode, key, action, { desc = desc, buffer = bufnr })
 	end
 
+	keymap("n", "gD", vim.lsp.buf.definition, "Go to definition")
 	keymap("n", "K", vim.lsp.buf.hover)
-	keymap("n", "<leader>ld", vim.lsp.buf.declaration, "Go to declaration")
-	keymap("n", "<leader>lD", vim.lsp.buf.definition, "Go to definition")
-	keymap("n", "<leader>li", vim.lsp.buf.implementation, "Go to implementation")
-	keymap("n", "<leader>lt", vim.lsp.buf.type_definition, "Go to type declaration")
-	keymap("n", "<leader>lr", vim.lsp.buf.references, "Go to references")
-	keymap("n", "<leader>ls", vim.lsp.buf.signature_help, "Go to signature")
-	keymap("n", "<leader>lR", vim.lsp.buf.rename, "Refactor: Rename")
-	keymap({ "n", "x" }, "<leader>lf", vim.lsp.buf.format, "Refactor: format")
+	keymap("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+	keymap("n", "gr", vim.lsp.buf.references, "Go to references")
+	keymap("n", "gds", vim.lsp.buf.document_symbol, "Document symbols")
+	keymap("n", "gws", vim.lsp.buf.workspace_symbol, "Workspace symbols")
+	keymap("n", "gd", vim.lsp.buf.declaration, "Go to declaration")
+	keymap("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
+	keymap("n", "<leader>sn", vim.lsp.buf.signature_help, "Go to signature")
+	keymap("n", "<leader>rn", vim.lsp.buf.rename, "Refactor: Rename")
+	keymap({ "n", "x" }, "<leader>rf", vim.lsp.buf.format, "Refactor: format")
+
+	keymap("n", "gtd", vim.lsp.buf.type_definition, "Go to type declaration")
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
 
 	-- TODO: Add more lspsaga keybinds

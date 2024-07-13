@@ -2,6 +2,7 @@
 return {
 	"echasnovski/mini.trailspace",
 	branch = "stable",
+	command = { "TrimSpace" },
 	init = function()
 		vim.api.nvim_create_user_command("TrimSpace", function()
 			require("mini.trailspace").trim()
@@ -12,7 +13,6 @@ return {
 			pattern = "dashboard",
 			callback = function(args)
 				vim.b[args.buf].minitrailspace_disable = true
-				vim.notify("turning off")
 				require("mini.trailspace").unhighlight()
 			end,
 		})
