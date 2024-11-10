@@ -58,5 +58,20 @@ return {
 			-- vim.cmd("colorscheme catppuccin")
 		end,
 	},
-	{ "rose-pine/neovim", name = "rose-pine", config = function() vim.cmd("colorscheme rose-pine-moon") end, }
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		config = function()
+			-- vim.cmd("colorscheme rose-pine")
+		end,
+	},
+	{
+		"gbprod/nord.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("nord").setup({})
+			vim.cmd.colorscheme("nord")
+		end,
+	},
 }

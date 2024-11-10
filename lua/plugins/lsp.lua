@@ -104,7 +104,7 @@ return {
 					"tailwindcss",
 					"templ",
 					"terraformls",
-					"tsserver",
+					"ts_ls",
 					"yamlls",
 				},
 				handlers = {
@@ -443,7 +443,14 @@ return {
 				server = {
 					on_attach = custom_lsp.on_attach,
 					settings = {
-						["rust-analyzer"] = {},
+						["rust-analyzer"] = {
+							procMacro = {
+								enable = true
+							},
+							cargo = {
+								features = "all",
+							},
+						},
 					},
 				},
 				dap = {},
