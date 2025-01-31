@@ -39,3 +39,11 @@ autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 
+autocmd({ "FocusLost" }, {
+	group = spartanvim_group,
+	callback = function()
+		vim.cmd.stopinsert()
+		vim.cmd.wall({ mods = { silent = true } })
+	end,
+})
+

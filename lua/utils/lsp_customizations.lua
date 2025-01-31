@@ -20,6 +20,10 @@ local function lsp_keymaps(client, bufnr)
 	keymap("n", "<leader>lR", vim.lsp.buf.rename, "Refactor: Rename")
 	keymap({ "n", "x" }, "<leader>lf", vim.lsp.buf.format, "Refactor: format")
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
+	keymap("n", "<leader>ll", function()
+		require("dap").repl.open()
+		vim.lsp.codelens.run()
+	end, "Code Lens")
 
 	-- TODO: Add lspsaga keybinds
 	keymap("n", "<leader>sf", ":Lspsaga finder<CR>", "Lspsaga: Launch finder")

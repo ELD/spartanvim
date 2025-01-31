@@ -49,7 +49,7 @@ return {
 						focusable = false,
 						style = "minimal",
 						border = "single",
-						source = "always",
+						source = true,
 						header = "",
 						prefix = "",
 					},
@@ -187,8 +187,8 @@ return {
 					lines_below = 10,
 				},
 				scroll_preview = {
-					scroll_down = "<C-f>",
-					scroll_up = "<C-b>",
+					scroll_down = "<C-u>",
+					scroll_up = "<C-d>",
 				},
 				request_timeout = 2000,
 				finder = {
@@ -434,7 +434,7 @@ return {
 	},
 	{
 		"mrcjkb/rustaceanvim",
-		version = "^4", -- Recommended
+		version = "^5", -- Recommended
 		ft = { "rust" },
 		config = function()
 			local custom_lsp = require("utils.lsp_customizations")
