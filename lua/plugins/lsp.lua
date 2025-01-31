@@ -3,15 +3,6 @@ return {
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "Mason" },
 		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"nvimdev/lspsaga.nvim",
-			"folke/neodev.nvim",
-			"b0o/schemastore.nvim",
-			"nvimtools/none-ls.nvim",
-			"jay-babu/mason-null-ls.nvim",
-		},
 		opts = {
 			inlay_hints = { enabled = true },
 		},
@@ -63,7 +54,7 @@ return {
 					"tailwindcss",
 					"templ",
 					"terraformls",
-					"tsserver",
+					"ts_ls",
 					"yamlls",
 				},
 				handlers = {
@@ -154,16 +145,7 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-buffer",    -- buffer completions
-			"hrsh7th/cmp-path",      -- path completions
-			"hrsh7th/cmp-cmdline",   -- cmdline completions
-			"saadparwaiz1/cmp_luasnip", -- snippet completions
-			"hrsh7th/cmp-nvim-lsp",
-			-- snippets
-			"L3MON4D3/LuaSnip",          --snippet engine
-			"rafamadriz/friendly-snippets", -- a bunch of snippets to use
-		},
+		enabled = false,
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
@@ -184,7 +166,7 @@ return {
 				local col = vim.fn.col "." - 1
 				return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 			end
-			cmp.setup({
+			local options = {
 				enabled = function()
 					return vim.api.nvim_get_option_value("buftype", {
 						buf = 0
@@ -198,39 +180,38 @@ return {
 						luasnip.lsp_expand(args.body)
 					end,
 				},
-				-- mapping = cmp.mapping.preset.insert({
-				-- 	["<C-k>"] = cmp.mapping.select_prev_item(),
-				-- 	["<C-j>"] = cmp.mapping.select_next_item(),
-				-- 	["<C-y>"] = cmp.config.disable,
-				-- 	["<CR>"] = cmp.mapping.confirm({ select = true }),
-				-- 	["<Tab>"] = cmp.mapping(function(fallback)
-				-- 		if luasnip.expandable() then
-				-- 			cmp.close()
-				-- 			luasnip.expand()
-				-- 		elseif luasnip.expand_or_jumpable() then
-				-- 			cmp.close()
-				-- 			luasnip.expand_or_jump()
-				-- 		elseif cmp.visible() then
-				-- 			cmp.select_next_item()
-				-- 		elseif check_backspace() then
-				-- 			fallback()
-				-- 		else
-				-- 			fallback()
-				-- 		end
-				-- 	end, {
-				-- 		"i", "s"
-				-- 	}),
-				-- 	["<S-Tab>"] = cmp.mapping(function(fallback)
-				-- 		if cmp.visible() then
-				-- 			cmp.select_prev_item()
-				-- 		elseif luasnip.jumpable(-1) then
-				-- 			luasnip.jump(-1)
-				-- 		else
-				-- 			fallback()
-				-- 		end
-				-- 	end, {
-				-- 		"i", "s" }),
-				-- }),
+				mapping = cmp.mapping.preset.insert({
+					["<C-k>"] = cmp.mapping.select_prev_item(),
+					["<C-j>"] = cmp.mapping.select_next_item(),
+					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if luasnip.expandable() then
+							cmp.close()
+							luasnip.expand()
+						elseif luasnip.expand_or_jumpable() then
+							cmp.close()
+							luasnip.expand_or_jump()
+						elseif cmp.visible() then
+							cmp.select_next_item()
+						elseif check_backspace() then
+							fallback()
+						else
+							fallback()
+						end
+					end, {
+						"i", "s"
+					}),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, {
+						"i", "s" }),
+				}),
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
@@ -254,14 +235,17 @@ return {
 					},
 					documentation = { winhighlight = "Normal:CmpDoc", border = border("CmpDocBorder") },
 				}
-			})
+			}
+
+			-- options = vim.tbl_deep_extend("force", options, require("nvchad.cmp"))
+			cmp.setup(options)
 
 			cmp.setup.filetype("gitcommit", {
 				sources = cmp.config.sources({
 					{ name = "cmp_git" },
 				}, {
-						{ name = "buffer" },
-					})
+					{ name = "buffer" },
+				})
 			})
 
 			cmp.setup.cmdline("/", {
@@ -276,14 +260,40 @@ return {
 				sources = cmp.config.sources({
 					{ name = "path" }
 				}, {
-						{
-							name = "cmdline",
-							option = {
-								ignore_cmds = { "Man", "!" }
-							}
+					{
+						name = "cmdline",
+						option = {
+							ignore_cmds = { "Man", "!" }
 						}
-					})
+					}
+				})
 			})
 		end,
 	},
+	{
+		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		config = function()
+			local lsp_lines = require("lsp_lines")
+			vim.diagnostic.config({
+				virtual_text = false
+			})
+			lsp_lines.setup()
+			lsp_lines.toggle()
+			vim.keymap.set("", "<leader>l", lsp_lines.toggle, { desc = "[lsp_lines] Toggle", silent = true })
+		end,
+	},
+	{ "williamboman/mason.nvim",           lazy = true },
+	{ "williamboman/mason-lspconfig.nvim", lazy = true },
+	{ "nvimdev/lspsaga.nvim", },
+	{ "folke/neodev.nvim", },
+	{ "b0o/schemastore.nvim",              lazy = true },
+	{ "nvimtools/none-ls.nvim",            lazy = true },
+	{ "jay-babu/mason-null-ls.nvim",       lazy = true },
+	{ "hrsh7th/cmp-buffer", enabled = false },                -- buffer completions
+	{ "hrsh7th/cmp-path", enabled = false },                  -- path completions
+	{ "hrsh7th/cmp-cmdline", enabled = false },               -- cmdline completions
+	{ "saadparwaiz1/cmp_luasnip", enabled = false },          -- snippet completions
+	{ "hrsh7th/cmp-nvim-lsp", enabled = false },
+	{ "L3MON4D3/LuaSnip", enabled = false },                  --snippet engine
+	{ "rafamadriz/friendly-snippets", enable = false },      -- a bunch of snippets to use
 }

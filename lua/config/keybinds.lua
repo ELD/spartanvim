@@ -22,4 +22,4 @@ keymap("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Previous item in quickfix lis
 keymap("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next item in location list", noremap = true, silent = true })
 keymap("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Previous item in location list", noremap = true, silent = true })
 
-keymap("n", "<leader>x", "<cmd>!chmod +x %<CR>", { desc = "Make file executable", noremap = true, silent = true })
+keymap("n", "<leader>xe", "<cmd>!chmod +x %<CR>", { desc = "Make file executable", noremap = true, silent = true })

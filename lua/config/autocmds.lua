@@ -14,3 +14,9 @@ autocmd("TextYankPost", {
 		})
 	end,
 })
+
+autocmd("BufWritePre", {
+	group = spartanvim_group,
+	pattern = "*",
+	command = [[%s/\s\+$//e]],
+})

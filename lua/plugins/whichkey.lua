@@ -11,21 +11,19 @@ return {
 		-- refer to the configuration section below
 	},
 	config = function()
-		local which_key = require("which-key")
-		which_key.setup({
+		local wk = require("which-key")
+		wk.setup({
 			plugins = {
 				spelling = false,
 			},
-			window = {
+			win = {
 				border = "single",
 			},
 		})
-
-		which_key.register({
-			mode = { "n" },
-			["<leader>s"] = { name = "Search & Replace" },
-			["<leader>f"] = { name = "Telescope" },
-			["<leader>l"] = { name = "LSP" },
+		wk.add({
+			{ "<leader>s", group = "Search & Replace", },
+			{ "<leader>f", group = "Telescope", },
+			-- { "<leader>l", group = "LSP", },
 		})
 	end,
 }

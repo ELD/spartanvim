@@ -10,20 +10,21 @@ local function lsp_keymaps(client, bufnr)
 		vim.keymap.set(mode, key, action, { desc = desc, buffer = bufnr })
 	end
 
-	keymap("n", "gD", vim.lsp.buf.definition, "Go to definition")
 	keymap("n", "K", vim.lsp.buf.hover)
-	keymap("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
-	keymap("n", "gr", vim.lsp.buf.references, "Go to references")
-	keymap("n", "gds", vim.lsp.buf.document_symbol, "Document symbols")
-	keymap("n", "gws", vim.lsp.buf.workspace_symbol, "Workspace symbols")
-	keymap("n", "gd", vim.lsp.buf.declaration, "Go to declaration")
+	keymap("n", "<leader>gD", vim.lsp.buf.definition, "Go to definition")
+	keymap("n", "<leader>gtd", vim.lsp.buf.type_definition, "Go to type declaration")
+	keymap("n", "<leader>gds", vim.lsp.buf.document_symbol, "Document symbols")
+	keymap("n", "<leader>gdc", vim.lsp.buf.declaration, "Go to declaration")
+	keymap("n", "<leader>gi", vim.lsp.buf.implementation, "Go to implementation")
+	keymap("n", "<leader>gr", vim.lsp.buf.references, "Go to references")
+	keymap("n", "<leader>gws", vim.lsp.buf.workspace_symbol, "Workspace symbols")
 	keymap("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
 	keymap("n", "<leader>sn", vim.lsp.buf.signature_help, "Go to signature")
 	keymap("n", "<leader>rn", vim.lsp.buf.rename, "Refactor: Rename")
 	keymap({ "n", "x" }, "<leader>rf", vim.lsp.buf.format, "Refactor: format")
 
-	keymap("n", "gtd", vim.lsp.buf.type_definition, "Go to type declaration")
 	keymap("n", "<M-Enter>", vim.lsp.buf.code_action, "Code Action")
+	keymap("n", "<leader>cl", vim.lsp.codelens.run, "Code Lens")
 
 	-- TODO: Add more lspsaga keybinds
 	keymap("n", "<leader>sf", ":Lspsaga finder<CR>", "Lspsaga: Launch finder")
@@ -83,17 +84,25 @@ end
 M.noop = function() end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-local cmp_capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
-cmp_capabilities.textDocument.semanticHighlighting = true
-cmp_capabilities.offsetEncoding = "utf-8"
-cmp_capabilities.textDocument.foldingRange = {
+local blink_caps = require("blink.cmp").get_lsp_capabilities(capabilities)
+blink_caps.textDocument.semanticHighlighting = true
+blink_caps.offsetEncoding = "utf-8"
+blink_caps.textDocument.foldingRange = {
 	dynamicRegistration = false,
-	lineFOldingOnly = true,
+	lineFoldingOnly = true,
 }
-
-M.capabilities = cmp_capabilities
+M.capabilities = blink_caps
+-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
+--
+-- local cmp_capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+--
+-- cmp_capabilities.textDocument.semanticHighlighting = true
+-- cmp_capabilities.offsetEncoding = "utf-8"
+-- cmp_capabilities.textDocument.foldingRange = {
+-- 	dynamicRegistration = false,
+-- 	lineFoldingOnly = true,
+-- }
+--
+-- M.capabilities = cmp_capabilities
 
 return M
